@@ -1,0 +1,65 @@
+# Local RAG App (FAISS + LangChain + Docker Model Runner)
+
+This project is a lightweight Retrieval-Augmented Generation (RAG) system that is useful for
+learning how RAG works.
+
+It runs entirely locally using:
+
+- FAISS for vector search
+- LangChain v2 for chaining
+- Docker Model Runner (DMR) for both embeddings and LLM inference
+- Local HR policy documents as the knowledge base
+
+The app loads a FAISS index, retrieves relevant chunks, and answers user questions 
+using a local LLM.  The FAISS index cannot be used with version of Python greater than 3.11.
+
+
+## Requirements
+- Python 3.11
+- LangChain v2 packages:
+- langchain-core
+- langchain-community
+- langchain-openai
+- faiss-cpu
+- Docker Model Runner with:
+- ai/embeddinggemma
+- ai/llama3.2 (or your chosen LLM)
+
+Langchain [meta data](https://pypi.org/project/langchain/) indicate using Python <4.0.0, >=3.10.0, but I found the Python v11 worked and I was able to integrate with FAISS using Python 3.11.
+
+## Docker Model Runner
+Two models are used one as the primary LLM and one to hold embeddings.  To learn more about using Docker Model Runner to host AI models on your local machine, see this <a href="https://medium.com/@code-literacy/docker-model-runner-wow-5397090b3251" target="_blank">Docker Model Runner Blog Post</a>.
+
+The RAG requires two models:
+1. The first model serves as LLM Inference provider so that you can ask AI questions.
+2. The second model provides a method to create text embeddings. These embeddings are numerical representations. Part of the process of setting up RAG is adding content and making that content retrievable py the Inference model.
+
+If you're running locally you want to choose model that don't requires a lot of parameters in order to save manage resources. Both of the models suggested below will be available and efficent.
+
+- ai/llama3.2 use for LLM Inference
+- ai/embeddinggemma use for embeddings
+
+## Install and Run
+
+1. Install Python version 3.11.
+2. Create a virtual environment: `python venv .venv311`.
+3. Activate the virtual environment: `source .venv311/bin/activate` (MAC).    
+or `.venv\Scripts\activate` (WINDOWS COMMAND PROMPT).  
+4. Install packages: `pip install -r requirements.txt`. 
+5. Set up Docker to load and run the two models: ai/llama3.2 and ai/embeddinggemma 
+6. Run the app: `python app.py`. 
+7. (Optional) If you're using this to learn how the RAG flow behaves, you can uncomment the DEBUG and print statements to learn more about that.  
+
+Depending on the memory in your local hardware, the app may be slow to respond.
+
+## Data Flow
+
+1. Raw data (.pdf's) are located in ./data/raw
+2. Processed data (.md) is generated using ./scripts/convert.py
+3. Data is loaded into embeddings using scripts/ingest.py which creates ./faiss_index
+4. Prompts are created and serviced in ./app.py
+
+## Example: Human Resources Standard Operating Procedures
+
+The sample content that will be accessible in this RAG will help to answer questions that users have about Human Resources.  Building on this could create a tool for use in Employee Onboarding.
+
