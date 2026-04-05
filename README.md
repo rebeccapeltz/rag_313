@@ -6,7 +6,7 @@ learning how RAG works.
 It runs entirely locally using:
 
 - FAISS for vector search
-- LangChain v2 for chaining
+- LangChain for chaining
 - Docker Model Runner (DMR) for both embeddings and LLM inference
 - Local HR policy documents as the knowledge base
 
@@ -15,17 +15,16 @@ using a local LLM.  The FAISS index cannot be used with version of Python greate
 
 
 ## Requirements
-- Python 3.11
-- LangChain v2 packages:
-- langchain-core
-- langchain-community
-- langchain-openai
-- faiss-cpu
+- Python 3.13
+- Python packages
+    - langchain-core
+    - langchain-community
+    - langchain-openai
+    - faiss-cpu
 - Docker Model Runner with:
-- ai/embeddinggemma
-- ai/llama3.2 (or your chosen LLM)
+    - ai/embeddinggemma
+    - ai/llama3.2 (or your chosen LLM)
 
-Langchain [meta data](https://pypi.org/project/langchain/) indicate using Python <4.0.0, >=3.10.0, but I found the Python v11 worked and I was able to integrate with FAISS using Python 3.11.
 
 ## Docker Model Runner
 Two models are used one as the primary LLM and one to hold embeddings.  To learn more about using Docker Model Runner to host AI models on your local machine, see this <a href="https://medium.com/@code-literacy/docker-model-runner-wow-5397090b3251" target="_blank">Docker Model Runner Blog Post</a>.
@@ -41,9 +40,9 @@ If you're running locally you want to choose model that don't requires a lot of 
 
 ## Install and Run
 
-1. Install Python version 3.11.
-2. Create a virtual environment: `python venv .venv311`.
-3. Activate the virtual environment: `source .venv311/bin/activate` (MAC).    
+1. Install Python version 3.13.
+2. Create a virtual environment: `python3.13 -m venv .venv`.
+3. Activate the virtual environment: `source .venv/bin/activate` (MAC).    
 or `.venv\Scripts\activate` (WINDOWS COMMAND PROMPT).  
 4. Install packages: `pip install -r requirements.txt`. 
 5. Set up Docker to load and run the two models: ai/llama3.2 and ai/embeddinggemma 
