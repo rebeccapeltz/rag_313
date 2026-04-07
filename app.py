@@ -93,12 +93,26 @@ rag_chain = (
 # 8. 
 # Test query 1
 
-query = "What recognition do I get on my first year anniversary?"
-print("\nQUERY:", query)
-print("ANSWER:", rag_chain.invoke(query))
+# query = "What recognition do I get on my first year anniversary?"
+# print("\nQUERY:", query)
+# print("ANSWER:", rag_chain.invoke(query))
 
 # Test query 2
 
-query = "What can I use sick leave for?"
-print("\nQUERY:", query)
-print("ANSWER:", rag_chain.invoke(query))
+# query = "What can I use sick leave for?"
+# print("\nQUERY:", query)
+# print("ANSWER:", rag_chain.invoke(query))
+ 
+## User Interface 
+print("\n")
+print("Welcome to the HR Assistant!\n")
+print("Ask about HR policies, benefits, or procedures.\n")
+print("-- Type 'end' to exit the assistant. --\n")
+print("Sample query: 'What are my options for sick leave?'")
+while True:
+    user_query = input("\nEnter your question (or 'end' to quit): ")
+    if user_query.lower() == "end":
+        print("Goodbye!")
+        break
+    answer = rag_chain.invoke(user_query)
+    print("Answer:", answer)
