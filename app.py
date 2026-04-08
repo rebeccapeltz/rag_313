@@ -108,7 +108,7 @@ print("\n")
 print("Welcome to the HR Assistant!\n")
 print("Ask about HR policies, benefits, or procedures.\n")
 print("-- Type 'end' to exit the assistant. --\n")
-print("Sample query: 'What are my options for sick leave?'")
+print("Sample query: 'What can I use sick leave for?'")
 while True:
     user_query = input("\nEnter your question (or 'end' to quit): ")
     if user_query.lower() == "end":
