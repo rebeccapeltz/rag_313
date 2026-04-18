@@ -11,7 +11,7 @@ from langchain_core.documents import Document
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# Project root: /local_rag
+# Project root: /RAG_313
 PROJECT_ROOT = os.path.dirname(BASE_DIR)
 
 # Correct paths
@@ -33,6 +33,14 @@ for filename in os.listdir(PROCESSED_DIR):
             docs.append(Document(page_content=text, metadata={"source": filename}))
 
 print("Loaded docs:", len(docs))
+
+print("PROCESSED_DIR resolves to:", os.path.abspath(PROCESSED_DIR))
+print("Directory exists:", os.path.exists(PROCESSED_DIR))
+print("All files in directory:", os.listdir(PROCESSED_DIR))
+print("Markdown files found:", [f for f in os.listdir(PROCESSED_DIR) if f.endswith(".md")])
+print("Docs loaded:", len(docs))
+for doc in docs:
+    print(f"  → {doc.metadata['source']} ({len(doc.page_content)} chars)")
 
 if len(docs) == 0:
     raise ValueError("No markdown files found in processed directory!")

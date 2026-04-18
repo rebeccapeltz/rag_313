@@ -7,11 +7,11 @@ It runs entirely locally using:
 
 - FAISS for vector search
 - LangChain for chaining
-- Docker Model Runner (DMR) for both embeddings and LLM inference
-- Local HR policy documents as the knowledge base
+- Docker Model Runner (DMR) for both embeddings and LLM inference models
+- Four ocal HR policy documents in PDF format as the knowledge base
 
 The app loads a FAISS index, retrieves relevant chunks, and answers user questions 
-using a local LLM.  The FAISS index cannot be used with version of Python greater than 3.11.
+using a local LLM.  The FAISS index cannot be used with version of Python greater than 3.13.
 
 
 ## Requirements
@@ -21,13 +21,15 @@ using a local LLM.  The FAISS index cannot be used with version of Python greate
     - langchain-community
     - langchain-openai
     - faiss-cpu
+    - sentence_transformers
+    - dotenv
 - Docker Model Runner with:
     - ai/embeddinggemma
     - ai/llama3.2 (or your chosen LLM)
 
 
 ## Docker Model Runner
-Two models are used one as the primary LLM and one to hold embeddings.  To learn more about using Docker Model Runner to host AI models on your local machine, see this <a href="https://medium.com/@code-literacy/docker-model-runner-wow-5397090b3251" target="_blank">Docker Model Runner Blog Post</a>.
+Two models are used one as the LLM to which prompts are submitted, and one to hold embeddings.  To learn more about using Docker Model Runner to host AI models on your local machine, see this <a href="https://medium.com/@code-literacy/docker-model-runner-wow-5397090b3251" target="_blank">Docker Model Runner Blog Post</a>.
 
 The RAG requires two models:
 1. The first model serves as LLM Inference provider so that you can ask AI questions.
@@ -37,6 +39,8 @@ If you're running locally you want to choose model that don't requires a lot of 
 
 - ai/llama3.2 use for LLM Inference
 - ai/embeddinggemma use for embeddings
+
+The sentence_transformer packages provides the cross-encoder/ms-marco-MiniLM-L-6-v2.  This mini model is downloaded and used for ranking FAISS index content captured in the embeddings model.  The ranked FAISS index data is sorted and the top 4 chunks are passed to the llama3.2 LLM as context.
 
 ## Install and Run
 
@@ -60,5 +64,5 @@ Depending on the memory in your local hardware, the app may be slow to respond.
 
 ## Example: Human Resources Standard Operating Procedures
 
-The sample content that will be accessible in this RAG will help to answer questions that users have about Human Resources.  Building on this could create a tool for use in Employee Onboarding.
+The sample content that will be accessible in this RAG will help to answer questions that users have about Human Resources.  Building on this could create a tool used by any employee to lookup information from Human Resources.
 

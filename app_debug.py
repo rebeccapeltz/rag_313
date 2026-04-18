@@ -8,6 +8,7 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnablePassthrough, RunnableLambda
 from sentence_transformers import CrossEncoder
 
+
 # ─────────────────────────────────────────────────────────────────────────────
 # GLOBAL CONFIGURATION
 # The local .env file contains an HF_TOKEN from huggingface.co. This prevents 
@@ -97,6 +98,24 @@ vectorstore = FAISS.load_local(
     allow_dangerous_deserialization=True
 )
 
+# --- DEBUG: inspect what's actually stored ---
+# docs = vectorstore.similarity_search("Standard Work Hours", k=4)
+# print(f"Retrieved {len(docs)} docs")
+# for i, doc in enumerate(docs):
+#     print(f"\n--- DOC {i+1} ---")
+#     print(repr(doc.page_content))  # repr shows hidden characters/whitespace
+#     print("Metadata:", doc.metadata)
+
+# --- DEBUG: dump ALL chunks in the index ---
+# all_docs = vectorstore.docstore._dict
+# print(f"Total chunks in index: {len(all_docs)}")
+
+# from collections import Counter
+# sources = [doc.metadata.get("source", "unknown") for doc in all_docs.values()]
+# counts = Counter(sources)
+# print("\nChunks per source:")
+# for source, count in counts.items():
+#     print(f"  {count} chunks | {source}")
 
 # ─────────────────────────────────────────────────────────────────────────────
 # SECTION 4: LLM (Large Language Model)
@@ -111,6 +130,7 @@ llm = ChatOpenAI(
     api_key=API_KEY,
     temperature=0
 )
+
 
 # ─────────────────────────────────────────────────────────────────────────────
 # SECTION 5: Retriever (first-stage, broad candidate fetch)
@@ -128,10 +148,12 @@ llm = ChatOpenAI(
 # Note that increasing k improves recall (more chances to get the right chunk) but also
 # increases latency, so it's a tradeoff.
 # ─────────────────────────────────────────────────────────────────────────────
+
 retriever = vectorstore.as_retriever(
     search_type="similarity",
     search_kwargs={"k": 20}
 )
+
 
 # ─────────────────────────────────────────────────────────────────────────────
 # SECTION 6: Cross-Encoder Reranker (second-stage, precision scoring)
@@ -183,6 +205,14 @@ def rerank_docs(query: str, docs: list) -> list:
     pairs = [(query, doc.page_content) for doc in docs]
     scores = reranker.predict(pairs)                  # returns a list of floats
     scored = sorted(zip(scores, docs), key=lambda x: x[0], reverse=True)
+
+
+    # --- DEBUG: print reranker scores ---
+    # print("\n--- Reranker scores ---")
+    # for score, doc in scored:
+    #     source = doc.metadata.get("source", "unknown")
+    #     print(f"  {score:.4f} | {source} | {doc.page_content[:60]}")
+
     return [doc for _, doc in scored[:RERANK_TOP_K]]
 
 
@@ -248,7 +278,6 @@ def make_rerank_lambda(query_ref: dict):
 
 # We use a two-step approach: capture query in a passthrough dict,
 # then pipe into the reranker before formatting.
-
 rag_chain = (
     RunnablePassthrough.assign(
         # Retrieve candidates, rerank them, format as a single string
