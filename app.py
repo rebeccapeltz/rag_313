@@ -7,6 +7,8 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnablePassthrough, RunnableLambda
 from sentence_transformers import CrossEncoder
+from transformers import logging as transformers_logging
+transformers_logging.set_verbosity_error()  # Suppress transformers warnings    
 
 # ─────────────────────────────────────────────────────────────────────────────
 # GLOBAL CONFIGURATION
@@ -28,7 +30,6 @@ from dotenv import load_dotenv
 load_dotenv()
 
 import logging
-logging.getLogger("sentence_transformers").setLevel(logging.WARNING)
 logging.getLogger("huggingface_hub").setLevel(logging.WARNING)
 os.environ["HF_HUB_DISABLE_PROGRESS_BARS"] = "1"
 
