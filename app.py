@@ -225,8 +225,8 @@ prompt = ChatPromptTemplate.from_template(template)
 #
 # FLOW:
 #   user query
-#     → retriever        (FAISS: query → top-10 candidate chunks)
-#     → rerank_lambda    (cross-encoder: top-10 → top-4 by relevance)
+#     → retriever        (FAISS: query → top-20 candidate chunks)
+#     → rerank_lambda    (cross-encoder: top-20 → top-4 by relevance)
 #     → format_docs      (join chunks into one context string)
 #     → prompt           (fill template with context + question)
 #     → llm              (Llama 3.2 generates the answer)
