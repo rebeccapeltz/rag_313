@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RAG Course Module 5 Review Quiz</title>
+  <link rel="icon" href="./quizz.png" type="image/png">
+  <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+  <div class="wrapper">
+    <h2 class="sr-only">RAG Course Module 5 Review Quiz: 5 Questions</h2>
+    <h3>Module 5: Code Walking and Debugging</h3>
+
+    <div id="quiz-app">
+      <div class="module-tabs" id="tabs"></div>
+      <div><button class="reset-btn" onclick="resetModule()">Reset module</button></div>
+      <div class="score-bar">
+        <div class="score"><span class="score-num" id="score-display">0</span> / <span id="total-display">5</span>
+          correct</div>
+
+      </div>
+      <div class="module-label" id="module-label"></div>
+      <div id="questions"></div>
+    </div>
+
+  </div>
+</body>
+
+<script>
+  const modules = [
+    {
+      title: "Module 5<br>RAG Chain Code Walkthrough",
+      label: "Code walkthrough & demo",
+
+      questions: [
+        {
+          q: "In a LangChain RAG chain, what does RunnablePassthrough accomplish?",
+          opts: ["It skips the retrieval step", "It passes the original user question through the chain unchanged so it can be used alongside retrieved context", "It caches the LLM response", "It formats the final output as plain text"],
+          ans: 1,
+          exp: "RunnablePassthrough forwards the input (the user's question) to the next stage without modification. In a RAG chain this ensures the question reaches the prompt template alongside the retrieved docs."
+        },
+        {
+          q: "What is a CrossEncoder reranker and why is it added after initial FAISS retrieval?",
+          opts: ["It re-embeds all documents in the index for improved accuracy", "It takes the top-k retrieved chunks and the original query together and re-scores them for relevance — more accurate than vector similarity alone", "It filters out duplicate chunks from the FAISS results", "It compresses chunks before sending them to the LLM"],
+          ans: 1,
+          exp: "Bi-encoder (FAISS) retrieval is fast but approximate. A CrossEncoder re-scores each candidate chunk by looking at the query and chunk together, significantly improving result relevance at the cost of a bit more compute."
+        },
+        {
+          q: "In the app.py code, what is the purpose of the score_threshold parameter when calling FAISS as a retriever?",
+          opts: ["It sets the maximum number of results returned", "It filters out document chunks whose similarity score falls below the threshold — only sufficiently relevant chunks pass to the LLM", "It controls the LLM's temperature", "It limits the number of tokens per chunk"],
+          ans: 1,
+          exp: "score_threshold sets a minimum relevance bar. Chunks below the threshold are discarded even if they're the top results, preventing the LLM from being fed loosely-related or irrelevant context."
+        },
+        {
+          q: "Looking at a LangChain LCEL chain like: chain = {'context': retriever, 'question': RunnablePassthrough()} | prompt | llm | StrOutputParser(). What does StrOutputParser do at the end?",
+          opts: ["It splits the LLM output into structured JSON", "It converts the LLM's raw message object into a plain Python string", "It filters profanity from the answer", "It sends the response back to the vector store"],
+          ans: 1,
+          exp: "LangChain LLMs return message objects (AIMessage), not raw strings. StrOutputParser extracts the .content string from the message, making it easy to display or process downstream."
+        },
+        {
+          q: "Why does the RAG app set the LLM's base_url to the Docker Model Runner endpoint rather than using the real OpenAI API URL?",
+          opts: ["The OpenAI SDK only works with local URLs", "Docker Model Runner exposes an OpenAI-compatible API, so pointing base_url at it redirects calls to the local model without changing any other code", "It is required by LangChain's ChatOpenAI class", "To enable streaming responses"],
+          ans: 1,
+          exp: "Docker Model Runner intentionally mimics the OpenAI REST API format. By changing only base_url and api_key='ollama' (or similar placeholder), the exact same ChatOpenAI calls go to local models instead of OpenAI's servers."
+        }
+      ]
+    },
+  ]
+
+
+
+  let current = 0;
+  let state = modules.map(m => m.questions.map(() => null));
+
+  function renderTabs() {
+    const tabs = document.getElementById('tabs');
+    tabs.innerHTML = modules.map((m, i) =>
+      `<button class="tab-btn ${i === current ? 'active' : ''}" onclick="switchModule(${i})">${m.title}</button>`
+    ).join('');
+  }
+
+
+
+  function updateScore() {
+    const answered = state[current].filter(s => s !== null);
+    const correct = state[current].filter(s => s === true);
+    document.getElementById('score-display').textContent = correct.length;
+    document.getElementById('total-display').textContent = modules[current].questions.length;
+    document.getElementById('module-label').textContent = modules[current].label;
+  }
+
+  function renderQuestions() {
+    const mod = modules[current];
+    const qs = document.getElementById('questions');
+    qs.innerHTML = mod.questions.map((q, qi) => {
+      const answered = state[current][qi];
+      return `<div class="q-card">
+      <div class="q-num">Question ${qi + 1} of ${mod.questions.length}</div>
+      <div class="q-text">${q.q}</div>
+      <div class="options">
+        ${q.opts.map((opt, oi) => {
+        let cls = '';
+        if (answered !== null) {
+          if (oi === q.ans) cls = oi === q.ans ? 'correct' : 'reveal';
+          if (answered === false && oi !== q.ans) cls = '';
+        }
+        const isSelected = answered !== null;
+        return `<button class="opt-btn ${cls}" 
+            ${isSelected ? 'disabled' : `onclick="answer(${qi}, ${oi})"`}
+            style="${isSelected && oi !== q.ans && cls === '' ? 'opacity:0.5' : ''}">
+            <span class="opt-letter">${String.fromCharCode(65 + oi)}.</span>
+            <span>${opt}</span>
+          </button>`;
+      }).join('')}
+      </div>
+      ${answered !== null ? `<div class="feedback ${answered ? 'correct' : 'wrong'}">
+        ${answered ? '✓ Correct. ' : '✗ Not quite. '}${q.exp}
+      </div>` : ''}
+    </div>`;
+    }).join('');
+  }
+
+  function answer(qi, chosen) {
+    const q = modules[current].questions[qi];
+    state[current][qi] = chosen === q.ans;
+    renderQuestions();
+    updateScore();
+  }
+
+  function resetModule() {
+    state[current] = modules[current].questions.map(() => null);
+    renderQuestions();
+    updateScore();
+  }
+
+  // renderTabs();
+  renderQuestions();
+  updateScore();
+</script>

@@ -1,0 +1,208 @@
+  :root {
+      --accent: #5DCAA5;
+      --accent-dark: #0F6E56;
+      --accent-bg: #E1F5EE;
+  }
+
+  * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+  }
+
+  body {
+      font-family: var(--font-sans);
+  }
+
+  #quiz-app {
+      padding: 1rem 0;
+  }
+
+  .module-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 1.5rem;
+  }
+
+  .tab-btn {
+      padding: 6px 12px;
+      border: 0.5px solid black;
+      font-weight: bold;
+      /* var(--color-border-secondary); */
+      border-radius: var(--border-radius-md);
+      background: var(--color-background-primary);
+      color: var(--color-text-secondary);
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.15s;
+  }
+
+  .tab-btn:hover {
+      background: var(--color-background-secondary);
+  }
+
+  .tab-btn.active {
+      background: #E1F5EE;
+      color: #0F6E56;
+      border-color: #5DCAA5;
+      /* font-weight: 500; */
+  }
+
+  .module-label {
+      font-size: 1rem;
+      color: var(--color-text-secondary);
+      margin-bottom: 0.75rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+  }
+
+  .q-card {
+      background: var(--color-background-primary);
+      border: 0.5px solid var(--color-border-tertiary);
+      border-radius: var(--border-radius-lg);
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+  }
+
+  .q-text {
+      font-size: 1rem;
+      color: var(--color-text-primary);
+      margin-bottom: 1rem;
+      line-height: 1.6;
+      font-weight: 500;
+  }
+
+  .q-num {
+      /* font-size: 12px; */
+      font-size: 1rem;
+      color: var(--color-text-secondary);
+      margin-bottom: 6px;
+  }
+
+  .options {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+  }
+
+  .opt-btn {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px 14px;
+      border: 0.5px solid var(--color-border-tertiary);
+      border-radius: var(--border-radius-md);
+      background: var(--color-background-secondary);
+      cursor: pointer;
+      text-align: left;
+      font-size: 14px;
+      color: var(--color-text-primary);
+      line-height: 1.5;
+      transition: all 0.12s;
+  }
+
+  .opt-btn:hover:not(:disabled) {
+      border-color: #5DCAA5;
+      background: #E1F5EE;
+      color: #0F6E56;
+  }
+
+  .opt-btn.correct {
+      background: #EAF3DE;
+      border-color: #639922;
+      color: #3B6D11;
+  }
+
+  .opt-btn.wrong {
+      background: #FCEBEB;
+      border-color: #E24B4A;
+      color: #A32D2D;
+  }
+
+  .opt-btn.reveal {
+      background: #EAF3DE;
+      border-color: #639922;
+      color: #3B6D11;
+      opacity: 0.7;
+  }
+
+  .opt-letter {
+      font-weight: 500;
+      min-width: 18px;
+  }
+
+  .feedback {
+      margin-top: 10px;
+      font-size: 13px;
+      padding: 8px 12px;
+      border-radius: var(--border-radius-md);
+      line-height: 1.5;
+  }
+
+  .feedback.correct {
+      background: #EAF3DE;
+      color: #3B6D11;
+  }
+
+  .feedback.wrong {
+      background: #FCEBEB;
+      color: #A32D2D;
+  }
+
+  .score-bar {
+      background: var(--color-background-secondary);
+      border-radius: var(--border-radius-md);
+      padding: 12px 16px;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      /* font-size: 14px; */
+      font-size: 1rem;
+      color: var(--color-text-secondary);
+  }
+
+  .score-num {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #0F6E56;
+  }
+  .score {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+
+  .reset-btn {
+      margin-left: auto;
+      padding: 6px 14px;
+      /* border: 0.5px solid var(--color-border-secondary); */
+      border: 0.5px #0F6E56 solid;
+      background: #5DCAA5;
+      border-radius: var(--border-radius-md);
+      /* background: var(--color-background-primary); */
+      /* color: var(--color-text-secondary); */
+      font-size: 13px;
+      cursor: pointer;
+      font-weight: bold;
+      color: black;
+  }
+
+  .reset-btn:hover {
+      /* background: var(--color-background-secondary); */
+      background: #0F6E56;
+      color: white;
+  }
+
+  .wrapper {
+      max-width: 900px;
+      /* Won't grow larger than 900px */
+      width: 90%;
+      /* Fills 90% of smaller screens */
+      margin: 0 auto;
+      /* Centers the container */
+      padding: 20px;
+      /* Spacing inside the box */
+      box-sizing: border-box;
+      /* Includes padding in width calculation */
+  }

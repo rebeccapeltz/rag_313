@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RAG Course Module 6 Review Quiz</title>
+  <link rel="icon" href="./quizz.png" type="image/png">
+  <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+  <div class="wrapper">
+    <h2 class="sr-only">RAG Course Module 6 Review Quiz: 5 Questions</h2>
+    <h3>Module 6: Local vs Cloud RAG</h3>
+
+    <div id="quiz-app">
+      <div class="module-tabs" id="tabs"></div>
+      <div><button class="reset-btn" onclick="resetModule()">Reset module</button></div>
+      <div class="score-bar">
+        <div class="score"><span class="score-num" id="score-display">0</span> / <span id="total-display">5</span>
+          correct</div>
+
+      </div>
+      <div class="module-label" id="module-label"></div>
+      <div id="questions"></div>
+    </div>
+
+  </div>
+</body>
+
+<script>
+  const modules = [
+    {
+      title: "Module 6<br>Local vs Cloud RAG",
+      label: "Local vs Cloud RAG",
+
+      questions: [
+        {
+          q: "A healthcare organization wants to build a RAG assistant over patient records. Which deployment approach is most appropriate and why?",
+          opts: ["Cloud RAG using OpenAI — lower latency", "Local RAG — patient data is protected health information (PHI) that must not leave the organization's network", "Either works equally — RAG is always HIPAA compliant", "Cloud RAG using a VPC endpoint is the only compliant option"],
+          ans: 1,
+          exp: "PHI is protected under HIPAA. Sending patient records to third-party cloud APIs creates compliance and legal risk. Local RAG keeps all data on-premises — the safest default for healthcare data."
+        },
+        {
+          q: "A startup wants to build a customer-facing RAG chatbot with thousands of concurrent users and no in-house GPU hardware. Which is the better fit?",
+          opts: ["Local RAG on a developer laptop", "Cloud RAG (e.g. OpenAI + Pinecone) — scales on demand without hardware investment", "Local RAG on a single server", "Neither — RAG cannot handle concurrent users"],
+          ans: 1,
+          exp: "Cloud RAG services scale horizontally. For high-concurrency public products where hardware procurement isn't practical, cloud APIs offer the simplest scaling path — at the cost of ongoing per-token billing and data leaving your system."
+        },
+        {
+          q: "What is the primary hardware constraint that limits which LLMs can be run locally with Docker Model Runner?",
+          opts: ["The version of Docker installed", "Available RAM and VRAM — models must fit in memory to run", "The number of CPU cores", "The size of the FAISS index on disk"],
+          ans: 1,
+          exp: "LLMs must be loaded entirely (or in quantized form) into RAM/VRAM to run. A 7B parameter model in 4-bit quantization needs ~4–6GB; larger models require more. This is the dominant hardware bottleneck for local inference."
+        },
+        {
+          q: "Model quantization (e.g. 4-bit or 8-bit) is used in local RAG deployments primarily to:",
+          opts: ["Improve the model's accuracy on specialized domains", "Reduce the model's memory footprint so it can run on hardware with less RAM/VRAM", "Speed up the FAISS index search", "Encrypt the model weights for security"],
+          ans: 1,
+          exp: "Quantization reduces the precision of model weights (e.g. from 32-bit floats to 4-bit integers), shrinking memory requirements by 4–8x with modest accuracy tradeoffs — making large models practical on consumer hardware."
+        },
+        {
+          q: "A developer is comparing local RAG and cloud RAG for a use case processing 10 million document queries per month. What is the key economic argument FOR local RAG at this scale?",
+          opts: ["Local models always give better answers", "At high query volume, the fixed cost of local hardware is amortized across queries — cloud API costs scale linearly and can become very expensive", "Cloud APIs charge per document, not per query", "Local RAG doesn't require chunking"],
+          ans: 1,
+          exp: "Cloud LLM APIs charge per token. At millions of queries/month, those costs compound rapidly. Once local hardware is purchased, marginal cost per query approaches zero — making local RAG economically favorable at high scale."
+        }
+      ]
+    }
+  ]
+
+
+
+  let current = 0;
+  let state = modules.map(m => m.questions.map(() => null));
+
+  function renderTabs() {
+    const tabs = document.getElementById('tabs');
+    tabs.innerHTML = modules.map((m, i) =>
+      `<button class="tab-btn ${i === current ? 'active' : ''}" onclick="switchModule(${i})">${m.title}</button>`
+    ).join('');
+  }
+
+
+
+  function updateScore() {
+    const answered = state[current].filter(s => s !== null);
+    const correct = state[current].filter(s => s === true);
+    document.getElementById('score-display').textContent = correct.length;
+    document.getElementById('total-display').textContent = modules[current].questions.length;
+    document.getElementById('module-label').textContent = modules[current].label;
+  }
+
+  function renderQuestions() {
+    const mod = modules[current];
+    const qs = document.getElementById('questions');
+    qs.innerHTML = mod.questions.map((q, qi) => {
+      const answered = state[current][qi];
+      return `<div class="q-card">
+      <div class="q-num">Question ${qi + 1} of ${mod.questions.length}</div>
+      <div class="q-text">${q.q}</div>
+      <div class="options">
+        ${q.opts.map((opt, oi) => {
+        let cls = '';
+        if (answered !== null) {
+          if (oi === q.ans) cls = oi === q.ans ? 'correct' : 'reveal';
+          if (answered === false && oi !== q.ans) cls = '';
+        }
+        const isSelected = answered !== null;
+        return `<button class="opt-btn ${cls}" 
+            ${isSelected ? 'disabled' : `onclick="answer(${qi}, ${oi})"`}
+            style="${isSelected && oi !== q.ans && cls === '' ? 'opacity:0.5' : ''}">
+            <span class="opt-letter">${String.fromCharCode(65 + oi)}.</span>
+            <span>${opt}</span>
+          </button>`;
+      }).join('')}
+      </div>
+      ${answered !== null ? `<div class="feedback ${answered ? 'correct' : 'wrong'}">
+        ${answered ? '✓ Correct. ' : '✗ Not quite. '}${q.exp}
+      </div>` : ''}
+    </div>`;
+    }).join('');
+  }
+
+  function answer(qi, chosen) {
+    const q = modules[current].questions[qi];
+    state[current][qi] = chosen === q.ans;
+    renderQuestions();
+    updateScore();
+  }
+
+  function resetModule() {
+    state[current] = modules[current].questions.map(() => null);
+    renderQuestions();
+    updateScore();
+  }
+
+  // renderTabs();
+  renderQuestions();
+  updateScore();
+</script>
