@@ -32,9 +32,43 @@ At the time of the creation of this project, the use of Python versions > 3.13 w
 
 
 ## Docker Model Runner
-Two models are used to used for this RAG projects: one as the LLM to which prompts are submitted, and one to hold embeddings. The embeddings are stored in FAISS index which is like a local database.  
+Download and Install `Docker Desktop`: 
+  - [MAC](https://docs.docker.com/desktop/setup/install/mac-install/)
+  - [LINUX](https://docs.docker.com/desktop/setup/install/linux/)
+  - [WINDOWS](https://docs.docker.com/desktop/setup/install/windows-install/)  
 
-To learn more about using Docker Model Runner to host AI models on your local machine, see this <a href="https://medium.com/@code-literacy/docker-model-runner-wow-5397090b3251" target="_blank">Docker Model Runner Blog Post</a>.
+### Enable Docker Model Runner with TCP
+Click on `Settings` in the Docker User Interface and then `AI`.  Check box to enable AI and TCP. Enablings TCP allows you to interact with tools like VS Code.
+
+![Settings turn on AI and TCP](./images/docker-enable-ai.png). 
+
+### The Docker Desktop application has an easy to use interface, but it's a good idea to run commands to control Docker Models from your computer's command line. 
+
+#### Manage and Run Models 
+
+After you have successfully "pulled" the models from Docker, you will see them listed by clicking on the **Models** tab on the left.
+
+```bash
+# Pull models
+# Model used to create FAISS Index/Ingestion Pipeline
+docker model pull ai/embeddinggemma
+
+# LLM used for Query Pipeline
+docker model pull ai/llama3.2
+
+# List Downloaded Models
+docker model list
+
+# Run the LLM 
+docker model run ai/llama3.2
+
+# End the LLM run
+/bye
+
+```
+
+
+Two models are used to used for this RAG projects: one as the LLM to which prompts are submitted, and one to hold embeddings. The embeddings are stored in FAISS index which is like a local database.  
 
 The RAG project requires two models be pulled:
 1. `ai/llama3.2` serves as LLM Inference provider so that you can ask AI questions.
@@ -42,7 +76,9 @@ The RAG project requires two models be pulled:
 
 If you're running locally you want to choose model that don't requires a lot of parameters in order to save manage resources. Both of the models suggested above will be available and efficent.
 
-![Docker Model Runnner with LLM and Embeddings running](./images/docker_model_runner.png)
+![Docker Model Runnner with LLM and Embeddings running](./images/list-model-ui-docker.png)
+
+To learn more about using Docker Model Runner to host AI models on your local machine, see this <a href="https://medium.com/@code-literacy/docker-model-runner-wow-5397090b3251" target="_blank">Docker Model Runner Blog Post</a>.
 
 ### Reranking
 Reranking is part of the RAG Retrieval Pipeline. It compares text from the prompt to retrieved data.  thr cross-encoder reads the query text and the data together and outputs a rank score. The top scores will provide the context for the LLM.
