@@ -38,6 +38,9 @@ Download and Install `Docker Desktop`:
   - [WINDOWS](https://docs.docker.com/desktop/setup/install/windows-install/)  
 
 ### Enable Docker Model Runner with TCP
+You can use the Docker Settings to enable AI with TCP, but the CLI is a reliable place to execute all docker model runner instructions.
+
+#### User Interface
 Click on `Settings` in the Docker User Interface and then `AI`.  Check box to enable AI and TCP. Enablings TCP allows you to interact with tools like VS Code.
 
 ![Settings turn on AI and TCP](./images/docker-enable-ai.png). 
@@ -49,6 +52,9 @@ Click on `Settings` in the Docker User Interface and then `AI`.  Check box to en
 After you have successfully "pulled" the models from Docker, you will see them listed by clicking on the **Models** tab on the left.
 
 ```bash
+# Enable Docker Model Runner with TCP
+docker desktop enable model-runner
+
 # Pull models
 # Model used to create FAISS Index/Ingestion Pipeline
 docker model pull ai/embeddinggemma
