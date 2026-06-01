@@ -63,11 +63,17 @@ docker model pull ai/llama3.2
 # List Downloaded Models
 docker model list
 
-# Run the LLM 
+# Run the Chat Model 
 docker model run ai/llama3.2
 
-# End the LLM run
+# End Chat Model Conversation
 /bye
+
+# Run the Embeddings Model
+# curl will make an API call to convert text to a numeric vector
+curl --location 'http://localhost:12434/engines/llama.cpp/v1/embeddings' \
+--header 'Content-Type: application/json' \
+--data '{ "model": "ai/embeddinggemma", "input": "Your text to embed here" }'
 
 ```
 
@@ -102,6 +108,7 @@ or `.venv\Scripts\activate` (WINDOWS COMMAND PROMPT).
 5. Set up Docker to load and run the two models: ai/llama3.2 and ai/embeddinggemma 
 6. Run the app: `python app.py`. 
 7. (Optional) If you're using this to learn how the RAG flow behaves, you can run the `app_debug.py` script to get information back at each step.  
+8. End the virtual environment with this command `deactivate`.
 
 Depending on the memory in your local hardware, the app may be slow to respond.
 
