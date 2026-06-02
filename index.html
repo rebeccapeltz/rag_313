@@ -1,27 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Building RAG Applications — A Course Project</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Code+Pro:wght@400;600&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Code+Pro:wght@400;600&family=Lora:ital,wght@0,400;0,500;1,400&display=swap"
+    rel="stylesheet">
   <style>
     :root {
-      --bark:      #3b2f1e;
-      --soil:      #5c4a32;
-      --moss:      #6b7c4b;
-      --fern:      #8fa660;
-      --sage:      #a8b87a;
-      --cream:     #f5f0e6;
+      --bark: #3b2f1e;
+      --soil: #5c4a32;
+      --moss: #6b7c4b;
+      --fern: #8fa660;
+      --sage: #a8b87a;
+      --cream: #f5f0e6;
       --parchment: #ede4d0;
-      --stone:     #c9bfaa;
-      --rust:      #a0522d;
-      --amber:     #c8832a;
-      --light-moss:#d4ddc0;
+      --stone: #c9bfaa;
+      --rust: #a0522d;
+      --amber: #c8832a;
+      --light-moss: #d4ddc0;
     }
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     body {
       background-color: var(--cream);
@@ -34,7 +43,8 @@
     /* ── Grain overlay ── */
     body::before {
       content: '';
-      position: fixed; inset: 0;
+      position: fixed;
+      inset: 0;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
       pointer-events: none;
       z-index: 999;
@@ -53,7 +63,9 @@
     header::after {
       content: '';
       position: absolute;
-      bottom: 0; left: 0; right: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
       height: 6px;
       background: repeating-linear-gradient(90deg, var(--amber) 0, var(--amber) 40px, var(--moss) 40px, var(--moss) 80px, var(--rust) 80px, var(--rust) 120px);
     }
@@ -84,7 +96,9 @@
       animation: fadeUp 0.6s ease forwards 0.25s;
     }
 
-    h1 span { color: var(--amber); }
+    h1 span {
+      color: var(--amber);
+    }
 
     .subtitle {
       margin-top: 1.1rem;
@@ -97,7 +111,9 @@
     }
 
     .badges {
-      display: flex; flex-wrap: wrap; gap: 0.6rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
       margin-top: 1.8rem;
       opacity: 0;
       animation: fadeUp 0.6s ease forwards 0.55s;
@@ -110,9 +126,24 @@
       border-radius: 2px;
       letter-spacing: 0.06em;
     }
-    .badge-amber  { background: rgba(200,131,42,0.18); color: var(--amber); border: 1px solid rgba(200,131,42,0.35); }
-    .badge-moss   { background: rgba(107,124,75,0.18); color: var(--fern);  border: 1px solid rgba(107,124,75,0.35); }
-    .badge-rust   { background: rgba(160,82,45,0.18);  color: #c47550;      border: 1px solid rgba(160,82,45,0.35); }
+
+    .badge-amber {
+      background: rgba(200, 131, 42, 0.18);
+      color: var(--amber);
+      border: 1px solid rgba(200, 131, 42, 0.35);
+    }
+
+    .badge-moss {
+      background: rgba(107, 124, 75, 0.18);
+      color: var(--fern);
+      border: 1px solid rgba(107, 124, 75, 0.35);
+    }
+
+    .badge-rust {
+      background: rgba(160, 82, 45, 0.18);
+      color: #c47550;
+      border: 1px solid rgba(160, 82, 45, 0.35);
+    }
 
     /* ── Main layout ── */
     main {
@@ -130,10 +161,14 @@
       margin-top: 3rem;
       padding-bottom: 0.4rem;
       border-bottom: 2px solid var(--light-moss);
-      display: flex; align-items: center; gap: 0.6rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
     }
 
-    h2 .icon { font-size: 1.1rem; }
+    h2 .icon {
+      font-size: 1.1rem;
+    }
 
     h3 {
       font-family: 'Playfair Display', serif;
@@ -142,7 +177,9 @@
       margin: 1.4rem 0 0.5rem;
     }
 
-    p { margin-bottom: 1rem; }
+    p {
+      margin-bottom: 1rem;
+    }
 
     /* ── Intro card ── */
     .intro-card {
@@ -154,7 +191,10 @@
       box-shadow: 3px 3px 0 var(--light-moss);
     }
 
-    .intro-card p { margin: 0; font-size: 1.05rem; }
+    .intro-card p {
+      margin: 0;
+      font-size: 1.05rem;
+    }
 
     /* ── Pipeline diagram ── */
     .pipeline {
@@ -176,14 +216,15 @@
 
     .pipeline-step:hover {
       transform: translateY(-3px);
-      box-shadow: 0 6px 18px rgba(59,47,30,0.12);
+      box-shadow: 0 6px 18px rgba(59, 47, 30, 0.12);
       z-index: 1;
     }
 
     .pipeline-step:not(:last-child)::after {
       content: '→';
       position: absolute;
-      right: -14px; top: 50%;
+      right: -14px;
+      top: 50%;
       transform: translateY(-50%);
       color: var(--amber);
       font-size: 1.2rem;
@@ -238,7 +279,9 @@
       transition: border-top-color 0.2s;
     }
 
-    .stack-card:hover { border-top-color: var(--amber); }
+    .stack-card:hover {
+      border-top-color: var(--amber);
+    }
 
     .stack-card .label {
       font-family: 'Source Code Pro', monospace;
@@ -318,9 +361,17 @@
       border-left: 4px solid var(--amber);
     }
 
-    pre .comment { color: #7d9460; }
-    pre .keyword { color: var(--amber); }
-    pre .string  { color: #c8a87a; }
+    pre .comment {
+      color: #7d9460;
+    }
+
+    pre .keyword {
+      color: var(--amber);
+    }
+
+    pre .string {
+      color: #c8a87a;
+    }
 
     /* ── Footer ── */
     footer {
@@ -338,7 +389,10 @@
       border-bottom: 1px dashed var(--sage);
     }
 
-    footer a:hover { color: var(--amber); border-bottom-color: var(--amber); }
+    footer a:hover {
+      color: var(--amber);
+      border-bottom-color: var(--amber);
+    }
 
     /* ── Divider ── */
     .divider {
@@ -349,8 +403,15 @@
 
     /* ── Animations ── */
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(14px); }
-      to   { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .reveal {
@@ -359,142 +420,156 @@
     }
 
     @media (max-width: 600px) {
-      .pipeline-step:not(:last-child)::after { display: none; }
-      h1 { font-size: 1.8rem; }
+      .pipeline-step:not(:last-child)::after {
+        display: none;
+      }
+
+      h1 {
+        font-size: 1.8rem;
+      }
     }
   </style>
 </head>
+
 <body>
 
-<header>
-  <div class="header-inner">
-    <p class="eyebrow">Course Project · AI &amp; Machine Learning</p>
-    <h1>Building <span>RAG Applications</span><br>From the Ground Up</h1>
-    <p class="subtitle">A hands-on course exploring Retrieval-Augmented Generation using FAISS, LangChain, and a locally hosted language model.</p>
-    <div class="badges">
-      <span class="badge badge-amber">Python</span>
-      <span class="badge badge-moss">FAISS</span>
-      <span class="badge badge-moss">LangChain</span>
-      <span class="badge badge-rust">Llama 3.2</span>
-      <span class="badge badge-amber">Docker</span>
-      <span class="badge badge-moss">CrossEncoder Reranker</span>
+  <header>
+    <div class="header-inner">
+      <p class="eyebrow">Course Project · AI &amp; Machine Learning</p>
+      <h1>Building <span>RAG Applications</span><br>From the Ground Up</h1>
+      <p class="subtitle">A hands-on course exploring Retrieval-Augmented Generation using FAISS, LangChain, and a
+        locally hosted language model.</p>
+      <div class="badges">
+        <span class="badge badge-amber">Python</span>
+        <span class="badge badge-moss">FAISS</span>
+        <span class="badge badge-moss">LangChain</span>
+        <span class="badge badge-rust">Llama 3.2</span>
+        <span class="badge badge-amber">Docker</span>
+        <span class="badge badge-moss">CrossEncoder Reranker</span>
+      </div>
     </div>
-  </div>
-</header>
+  </header>
 
-<main>
+  <main>
 
-  <div class="intro-card reveal" style="animation-delay:0.1s">
-    <p>This project is the practical backbone of a course on <strong>Retrieval-Augmented Generation (RAG)</strong> — teaching students how to move beyond simple chatbot prompting into building real AI pipelines that retrieve, rank, and reason over their own document collections.</p>
-  </div>
+    <div class="intro-card reveal" style="animation-delay:0.1s">
+      <p>This project is the practical backbone of a course on <strong>Retrieval-Augmented Generation (RAG)</strong> —
+        teaching students how to move beyond simple chatbot prompting into building real AI pipelines that retrieve,
+        rank, and reason over their own document collections.</p>
+    </div>
 
-  <!-- WHAT IS RAG -->
-  <h2 class="reveal" style="animation-delay:0.15s"><span class="icon">🌿</span> What Is RAG?</h2>
-  <p class="reveal" style="animation-delay:0.2s">Large language models are powerful, but they can only reason over what they were trained on. <strong>Retrieval-Augmented Generation</strong> solves this by giving the model access to a curated knowledge base at query time — fetching the most relevant documents before generating an answer.</p>
-  <p class="reveal" style="animation-delay:0.25s">This project builds that system end-to-end: from raw documents through vector indexing, semantic search, and reranking, to a final grounded response. Every component is visible, explainable, and owned by the student.</p>
+    <!-- WHAT IS RAG -->
+    <h2 class="reveal" style="animation-delay:0.15s"><span class="icon">🌿</span> What Is RAG?</h2>
+    <p class="reveal" style="animation-delay:0.2s">Large language models are powerful, but they can only reason over
+      what they were trained on. <strong>Retrieval-Augmented Generation</strong> solves this by giving the model access
+      to a curated knowledge base at query time — fetching the most relevant documents before generating an answer.</p>
+    <p class="reveal" style="animation-delay:0.25s">This project builds that system end-to-end: from raw documents
+      through vector indexing, semantic search, and reranking, to a final grounded response. Every component is visible,
+      explainable, and owned by the student.</p>
 
-  <div class="divider"></div>
+    <div class="divider"></div>
 
-  <!-- PIPELINE OVERVIEW -->
-  <h2 class="reveal"><span class="icon">🔁</span> The Two Pipelines</h2>
-  <p class="reveal">The architecture splits cleanly into an <strong>ingestion pipeline</strong> (run once, or on updates) and a <strong>query pipeline</strong> (run at inference time). Students build both.</p>
+    <!-- PIPELINE OVERVIEW -->
+    <h2 class="reveal"><span class="icon">🔁</span> The Two Pipelines</h2>
+    <p class="reveal">The architecture splits cleanly into an <strong>ingestion pipeline</strong> (run once, or on
+      updates) and a <strong>query pipeline</strong> (run at inference time). Students build both.</p>
 
-  <h3 class="reveal">Ingestion Pipeline</h3>
-  <div class="pipeline reveal">
-    <div class="pipeline-step">
-      <span class="step-icon">📄</span>
-      <div class="step-num">Step 1</div>
-      <div class="step-title">Load Documents</div>
-      <div class="step-detail">PDF, TXT, or HR policy files</div>
+    <h3 class="reveal">Ingestion Pipeline</h3>
+    <div class="pipeline reveal">
+      <div class="pipeline-step">
+        <span class="step-icon">📄</span>
+        <div class="step-num">Step 1</div>
+        <div class="step-title">Load Documents</div>
+        <div class="step-detail">PDF, TXT, or HR policy files</div>
+      </div>
+      <div class="pipeline-step">
+        <span class="step-icon">✂️</span>
+        <div class="step-num">Step 2</div>
+        <div class="step-title">Chunk Text</div>
+        <div class="step-detail">RecursiveCharacterTextSplitter</div>
+      </div>
+      <div class="pipeline-step">
+        <span class="step-icon">🔢</span>
+        <div class="step-num">Step 3</div>
+        <div class="step-title">Embed</div>
+        <div class="step-detail">HuggingFace sentence transformers</div>
+      </div>
+      <div class="pipeline-step">
+        <span class="step-icon">🗄️</span>
+        <div class="step-num">Step 4</div>
+        <div class="step-title">Index</div>
+        <div class="step-detail">FAISS vector store (persisted to disk)</div>
+      </div>
     </div>
-    <div class="pipeline-step">
-      <span class="step-icon">✂️</span>
-      <div class="step-num">Step 2</div>
-      <div class="step-title">Chunk Text</div>
-      <div class="step-detail">RecursiveCharacterTextSplitter</div>
-    </div>
-    <div class="pipeline-step">
-      <span class="step-icon">🔢</span>
-      <div class="step-num">Step 3</div>
-      <div class="step-title">Embed</div>
-      <div class="step-detail">HuggingFace sentence transformers</div>
-    </div>
-    <div class="pipeline-step">
-      <span class="step-icon">🗄️</span>
-      <div class="step-num">Step 4</div>
-      <div class="step-title">Index</div>
-      <div class="step-detail">FAISS vector store (persisted to disk)</div>
-    </div>
-  </div>
 
-  <h3 class="reveal">Query Pipeline</h3>
-  <div class="pipeline reveal">
-    <div class="pipeline-step">
-      <span class="step-icon">💬</span>
-      <div class="step-num">Step 1</div>
-      <div class="step-title">User Query</div>
-      <div class="step-detail">Natural language question</div>
+    <h3 class="reveal">Query Pipeline</h3>
+    <div class="pipeline reveal">
+      <div class="pipeline-step">
+        <span class="step-icon">💬</span>
+        <div class="step-num">Step 1</div>
+        <div class="step-title">User Query</div>
+        <div class="step-detail">Natural language question</div>
+      </div>
+      <div class="pipeline-step">
+        <span class="step-icon">🔍</span>
+        <div class="step-num">Step 2</div>
+        <div class="step-title">Retrieve</div>
+        <div class="step-detail">Top-k semantic search via FAISS</div>
+      </div>
+      <div class="pipeline-step">
+        <span class="step-icon">🏆</span>
+        <div class="step-num">Step 3</div>
+        <div class="step-title">Rerank</div>
+        <div class="step-detail">CrossEncoder scores candidates</div>
+      </div>
+      <div class="pipeline-step">
+        <span class="step-icon">🤖</span>
+        <div class="step-num">Step 4</div>
+        <div class="step-title">Generate</div>
+        <div class="step-detail">Llama 3.2 via Docker Model Runner</div>
+      </div>
     </div>
-    <div class="pipeline-step">
-      <span class="step-icon">🔍</span>
-      <div class="step-num">Step 2</div>
-      <div class="step-title">Retrieve</div>
-      <div class="step-detail">Top-k semantic search via FAISS</div>
-    </div>
-    <div class="pipeline-step">
-      <span class="step-icon">🏆</span>
-      <div class="step-num">Step 3</div>
-      <div class="step-title">Rerank</div>
-      <div class="step-detail">CrossEncoder scores candidates</div>
-    </div>
-    <div class="pipeline-step">
-      <span class="step-icon">🤖</span>
-      <div class="step-num">Step 4</div>
-      <div class="step-title">Generate</div>
-      <div class="step-detail">Llama 3.2 via Docker Model Runner</div>
-    </div>
-  </div>
 
-  <div class="divider"></div>
+    <div class="divider"></div>
 
-  <!-- TECH STACK -->
-  <h2 class="reveal"><span class="icon">🪵</span> Technology Stack</h2>
-  <div class="stack-grid reveal">
-    <div class="stack-card">
-      <div class="label">Vector Store</div>
-      <div class="name">FAISS</div>
-      <div class="desc">Facebook AI Similarity Search — fast, local, no cloud dependency.</div>
+    <!-- TECH STACK -->
+    <h2 class="reveal"><span class="icon">🪵</span> Technology Stack</h2>
+    <div class="stack-grid reveal">
+      <div class="stack-card">
+        <div class="label">Vector Store</div>
+        <div class="name">FAISS</div>
+        <div class="desc">Facebook AI Similarity Search — fast, local, no cloud dependency.</div>
+      </div>
+      <div class="stack-card">
+        <div class="label">Orchestration</div>
+        <div class="name">LangChain</div>
+        <div class="desc">Document loaders, text splitters, retriever chains, and prompt templates.</div>
+      </div>
+      <div class="stack-card">
+        <div class="label">Language Model</div>
+        <div class="name">Llama 3.2</div>
+        <div class="desc">Hosted locally via Docker Model Runner using the OpenAI-compatible API.</div>
+      </div>
+      <div class="stack-card">
+        <div class="label">Reranker</div>
+        <div class="name">CrossEncoder</div>
+        <div class="desc">Sentence-Transformers cross-encoder re-scores retrieved chunks for precision.</div>
+      </div>
+      <div class="stack-card">
+        <div class="label">Embeddings</div>
+        <div class="name">HuggingFace</div>
+        <div class="desc">Local sentence-transformer models; no API key required.</div>
+      </div>
+      <div class="stack-card">
+        <div class="label">Runtime</div>
+        <div class="name">Python 3.11+</div>
+        <div class="desc">Clean virtual environment; dependencies managed via requirements.txt.</div>
+      </div>
     </div>
-    <div class="stack-card">
-      <div class="label">Orchestration</div>
-      <div class="name">LangChain</div>
-      <div class="desc">Document loaders, text splitters, retriever chains, and prompt templates.</div>
-    </div>
-    <div class="stack-card">
-      <div class="label">Language Model</div>
-      <div class="name">Llama 3.2</div>
-      <div class="desc">Hosted locally via Docker Model Runner using the OpenAI-compatible API.</div>
-    </div>
-    <div class="stack-card">
-      <div class="label">Reranker</div>
-      <div class="name">CrossEncoder</div>
-      <div class="desc">Sentence-Transformers cross-encoder re-scores retrieved chunks for precision.</div>
-    </div>
-    <div class="stack-card">
-      <div class="label">Embeddings</div>
-      <div class="name">HuggingFace</div>
-      <div class="desc">Local sentence-transformer models; no API key required.</div>
-    </div>
-    <div class="stack-card">
-      <div class="label">Runtime</div>
-      <div class="name">Python 3.11+</div>
-      <div class="desc">Clean virtual environment; dependencies managed via requirements.txt.</div>
-    </div>
-  </div>
 
-  <!-- CODE SAMPLE -->
-  <h3 class="reveal">Sample: Loading &amp; Indexing Documents</h3>
-  <pre class="reveal"><span class="comment"># ingest.py — Build the FAISS index from source documents</span>
+    <!-- CODE SAMPLE -->
+    <h3 class="reveal">Sample: Loading &amp; Indexing Documents</h3>
+    <pre class="reveal"><span class="comment"># ingest.py — Build the FAISS index from source documents</span>
 <span class="keyword">from</span> langchain_community.document_loaders <span class="keyword">import</span> DirectoryLoader
 <span class="keyword">from</span> langchain.text_splitter <span class="keyword">import</span> RecursiveCharacterTextSplitter
 <span class="keyword">from</span> langchain_huggingface <span class="keyword">import</span> HuggingFaceEmbeddings
@@ -515,112 +590,150 @@ vectorstore.save_local(<span class="string">"./faiss_index"</span>)
 
 <span class="keyword">print</span>(<span class="string">f"Indexed {len(chunks)} chunks → faiss_index/"</span>)</pre>
 
-  <div class="divider"></div>
+    <div class="divider"></div>
 
-  <!-- COURSE MODULES -->
-  <h2 class="reveal"><span class="icon">📚</span> Course Modules</h2>
-  <p class="reveal">This project supports a structured sequence of learning objectives, moving from concept to working code:</p>
+    <!-- COURSE MODULES -->
+    <h2 class="reveal"><span class="icon">📚</span> Course Modules</h2>
+    <p class="reveal">This project supports a structured sequence of learning objectives, moving from concept to working
+      code:</p>
 
-  <ul class="module-list reveal">
-    <li>
-      <span class="module-num">01</span>
-      <div class="module-text">
-        <strong>RAG Concepts &amp; Architecture</strong>
-        <span>Why retrieval matters, how it differs from fine-tuning, and the anatomy of a RAG system.</span>
-      </div>
-    </li>
-    <li>
-      <span class="module-num">02</span>
-      <div class="module-text">
-        <strong>Document Preparation &amp; Chunking</strong>
-        <span>Loading source files, choosing chunk size and overlap, and understanding the tradeoffs.</span>
-      </div>
-    </li>
-    <li>
-      <span class="module-num">03</span>
-      <div class="module-text">
-        <strong>Embeddings &amp; Vector Search</strong>
-        <span>What embeddings represent, how cosine similarity works, and building a FAISS index.</span>
-      </div>
-    </li>
-    <li>
-      <span class="module-num">04</span>
-      <div class="module-text">
-        <strong>The Ingestion Pipeline</strong>
-        <span>End-to-end script: load → chunk → embed → persist. Running and verifying the index.</span>
-      </div>
-    </li>
-    <li>
-      <span class="module-num">05</span>
-      <div class="module-text">
-        <strong>The Query Pipeline</strong>
-        <span>Retrieving top-k chunks, constructing the prompt, and calling the local LLM for a grounded answer.</span>
-      </div>
-    </li>
-    <li>
-      <span class="module-num">06</span>
-      <div class="module-text">
-        <strong>Reranking with CrossEncoder</strong>
-        <span>Why bi-encoder retrieval isn't always enough — and how a CrossEncoder reranker improves precision.</span>
-      </div>
-    </li>
-    <li>
-      <span class="module-num">07</span>
-      <div class="module-text">
-        <strong>Running a Local LLM with Docker</strong>
-        <span>Docker Model Runner setup, the OpenAI-compatible API endpoint, and connecting Python to a local model.</span>
-      </div>
-    </li>
-    <li>
-      <span class="module-num">08</span>
-      <div class="module-text">
-        <strong>Evaluation &amp; Debugging RAG</strong>
-        <span>Diagnosing retrieval failures, inspecting retrieved chunks, and iterating on chunk strategy and prompts.</span>
-      </div>
-    </li>
-  </ul>
+    <ul class="module-list reveal">
+      <li>
+        <span class="module-num">01</span>
+        <div class="module-text">
+          <strong>RAG Concepts &amp; Architecture</strong>
+          <span>Why retrieval matters, how it differs from fine-tuning, and the anatomy of a RAG system.</span>
+        </div>
+      </li>
+      <li>
+        <span class="module-num">02</span>
+        <div class="module-text">
+          <strong>Setup Docker Model Runner &amp; Python Virtual Environment</strong>
+          <span>Installing Docker Model Runner, Managing &amp; Using Models, and setting up a Python Virutal
+            Environment</span>
+        </div>
+      </li>
+      <li>
+        <span class="module-num">03</span>
+        <div class="module-text">
+          <strong>Data Conversion: Document Preparation &amp; Chunking</strong>
+          <span>Loading source files, choosing chunk size and overlap, and understanding the tradeoffs.</span>
+        </div>
+      </li>
+      <li>
+        <span class="module-num">04</span>
+        <div class="module-text">
+          <strong>The Data Ingestion Pipeline</strong>
+          <span>What embeddings represent, how cosine similarity works, and building a FAISS index.</span>
+        </div>
+      </li>
+      <!-- <li>
+        <span class="module-num">05</span>
+        <div class="module-text">
+          <strong>The Ingestion Pipeline</strong>
+          <span>End-to-end script: load → chunk → embed → persist. Running and verifying the index.</span>
+        </div>
+      </li> -->
+      <li>
+        <span class="module-num">05</span>
+        <div class="module-text">
+          <strong>The Query Pipeline</strong>
+          <span>The Query Pipeline: Retrieve chunks, Construct the Prompt, Call LLM for Answer.</span>
+        </div>
+      </li>
+      <!-- <li>
+        <span class="module-num">06</span>
+        <div class="module-text">
+          <strong>Reranking with CrossEncoder</strong>
+          <span>Why bi-encoder retrieval isn't always enough — and how a CrossEncoder reranker improves
+            precision.</span>
+        </div>
+      </li> -->
+      <li>
+        <span class="module-num">06</span>
+        <div class="module-text">
+          <strong>Query Pipeline Application Demo</strong>
+          <span>Combine User Prompt with Context from Uses Data to Answer Questions</span>
+        </div>
+      </li>
+      <!-- <li>
+        <span class="module-num">07</span>
+        <div class="module-text">
+          <strong>Running a Local LLM with Docker</strong>
+          <span>Docker Model Runner setup, the OpenAI-compatible API endpoint, and connecting Python to a local
+            model.</span>
+        </div>
+      </li> -->
+      <!-- <li>
+        <span class="module-num">08</span>
+        <div class="module-text">
+          <strong>Evaluation &amp; Debugging RAG</strong>
+          <span>Diagnosing retrieval failures, inspecting retrieved chunks, and iterating on chunk strategy and
+            prompts.</span>
+        </div>
+      </li> -->
+      <li>
+        <span class="module-num">07</span>
+        <div class="module-text">
+          <strong>Local vs Cloud RAG: Tradeoffs and Real World Cases</strong>
+          <span>Token Cost, Local Memory Cost, and Hallucinations</span>
+        </div>
+      </li>
+    </ul>
 
-  <div class="divider"></div>
+    <div class="divider"></div>
 
-  <!-- LEARNING OUTCOMES -->
-  <h2 class="reveal"><span class="icon">🌱</span> Learning Outcomes</h2>
-  <p class="reveal">By the end of this project, students will be able to:</p>
-  <ul class="module-list reveal">
-    <li>
-      <span class="module-num">✓</span>
-      <div class="module-text"><strong>Explain</strong> the difference between parametric and non-parametric knowledge in LLMs.</div>
-    </li>
-    <li>
-      <span class="module-num">✓</span>
-      <div class="module-text"><strong>Build</strong> a working ingestion pipeline that converts documents into a searchable FAISS index.</div>
-    </li>
-    <li>
-      <span class="module-num">✓</span>
-      <div class="module-text"><strong>Write</strong> a query pipeline that retrieves, reranks, and generates grounded answers.</div>
-    </li>
-    <li>
-      <span class="module-num">✓</span>
-      <div class="module-text"><strong>Run</strong> an open-source LLM locally using Docker — no API keys, no cloud costs.</div>
-    </li>
-    <li>
-      <span class="module-num">✓</span>
-      <div class="module-text"><strong>Debug</strong> common RAG failure modes: retrieval misses, hallucinations, and prompt issues.</div>
-    </li>
-  </ul>
+    <!-- LEARNING OUTCOMES -->
+    <h2 class="reveal"><span class="icon">🌱</span> Learning Outcomes</h2>
+    <p class="reveal">By the end of this project, students will be able to:</p>
+    <ul class="module-list reveal">
+      <li>
+        <span class="module-num">✓</span>
+        <div class="module-text"><strong>Explain</strong> the difference between parametric and non-parametric knowledge
+          in LLMs.</div>
+      </li>
+      <li>
+        <span class="module-num">✓</span>
+        <div class="module-text"><strong>Build</strong> a working ingestion pipeline that converts documents into a
+          searchable FAISS index.</div>
+      </li>
+      <li>
+        <span class="module-num">✓</span>
+        <div class="module-text"><strong>Write</strong> a query pipeline that retrieves, reranks, and generates grounded
+          answers.</div>
+      </li>
+      <li>
+        <span class="module-num">✓</span>
+        <div class="module-text"><strong>Run</strong> an open-source LLM locally using Docker — no API keys, no cloud
+          costs.</div>
+      </li>
+      <li>
+        <span class="module-num">✓</span>
+        <div class="module-text"><strong>Debug</strong> common RAG failure modes: retrieval misses, hallucinations, and
+          prompt issues.</div>
+      </li>
+    </ul>
 
-  <div class="divider"></div>
+    <div class="divider"></div>
 
-  <!-- ABOUT -->
-  <h2 class="reveal"><span class="icon">🪨</span> About This Project</h2>
-  <p class="reveal">This repository was developed as an educational resource by <strong>Becky Peltz</strong>, a software developer and AI educator with decades of experience teaching programming and AI literacy at institutions including Wenatchee Valley College, Skagit Valley College, and UW Continuing Education.</p>
-  <p class="reveal">The project is designed to be accessible to learners with Python fundamentals, while building genuine engineering depth. Every architectural decision in the codebase is documented as a teaching opportunity.</p>
-  <p class="reveal">Visit <a href="https://beckypeltz.online" target="_blank" rel="noopener">beckypeltz.online</a> to learn more.</p>
+    <!-- ABOUT -->
+    <h2 class="reveal"><span class="icon">🪨</span> About This Project</h2>
+    <p class="reveal">This repository was developed as an educational resource by <strong>Becky Peltz</strong>, a
+      software developer and AI educator with decades of experience teaching programming and AI literacy at institutions
+      including Wenatchee Valley College, Skagit Valley College, and UW Continuing Education.</p>
+    <p class="reveal">The project is designed to be accessible to learners with Python fundamentals, while building
+      genuine engineering depth. Every architectural decision in the codebase is documented as a teaching opportunity.
+    </p>
+    <p class="reveal">Visit <a href="https://beckypeltz.online" target="_blank" rel="noopener">beckypeltz.online</a> to
+      learn more.</p>
 
-</main>
+  </main>
 
-<footer>
-  <p>Built for the classroom · RAG Course Project · <a href="https://beckypeltz.online" target="_blank">beckypeltz.online</a></p>
-</footer>
+  <footer>
+    <p>Built for the classroom · RAG Course Project · <a href="https://beckypeltz.online"
+        target="_blank">beckypeltz.online</a></p>
+  </footer>
 
 </body>
+
 </html>
