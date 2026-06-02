@@ -20,9 +20,10 @@ Once installed, tell PyCharm to use this specific version for your project:
 4.  Click the Add Interpreter link (often a small drop-down or plus icon) and select Add Local Interpreter....    
 5.  In the left sidebar, choose Virtualenv Environment (recommended for GitHub projects).  
 6.  In the Base interpreter field, click the three dots ... to browse.  
-7.  Find the Python 3.13 executable:  
-    - Windows: Usually in C:\Users\[YourUser]\AppData\Local\Programs\Python\Python313\python.exe.  
-    - macOS/Linux: Usually in /usr/local/bin/python3.13 or similar.    
+7.  Find and apply the Python 3.13 executable:  
+    - `which python3.13` (MAC)
+    - `where python3.13` (WINDOWS path search)
+    - `find`, `locate`, or `whereis` (LINUX)  
 8.  Click OK to save.  
 
 PyCharm will now create a new virtual environment using Python 3.13 for this project.  
