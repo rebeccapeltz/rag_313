@@ -112,7 +112,7 @@ I've added logging adjustments to prevent warnings that aren't relevant to runni
 3. Activate the virtual environment: 
     - `source .venv/bin/activate` (MAC, LINUX)
     - `.venv\Scripts\activate` (WINDOWS COMMAND PROMPT). 
-4. Install packages: `pip install -r requirements.txt`. 
+4. Install packages: `pip install -r requirements.txt`. Run `pip check` to tet for broken requirements.
 5. Set up Docker to load and run the two models: ai/llama3.2 and ai/embeddinggemma 
 6. Implement the Data Ingestion Pipeline (above).
 7. Run the app: `python app.py`. 

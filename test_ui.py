@@ -1,13 +1,3 @@
-import os
-import sys
-import io
-from langchain_openai import ChatOpenAI, OpenAIEmbeddings
-from langchain_community.vectorstores import FAISS
-from langchain_core.prompts import ChatPromptTemplate
-from langchain_core.output_parsers import StrOutputParser
-from langchain_core.runnables import RunnablePassthrough, RunnableLambda
-from sentence_transformers import CrossEncoder
-from transformers import logging as transformers_logging
 
 # ─────────────────────────────────────────────────────────────────────────────
 # User interface Test
@@ -24,4 +14,4 @@ while True:
         print("Goodbye!")
         break
     
-    print("Name:", user_input)
+    print("User input:", user_input)
