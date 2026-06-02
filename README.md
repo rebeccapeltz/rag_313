@@ -98,21 +98,22 @@ Importing the `sentence_transformer` packages provides the `cross-encoder/ms-mar
 ## Logging
 I've added logging adjustments to prevent warnings that aren't relevant to running the code. You should still get logging errors when there are errors, but not for warnings.  See the documentation in the code for this.
 
-## Install and Run
+## Install Python Application and Run
 
 1. Install Python version 3.13.
 2. Create a virtual environment: `python3.13 -m venv .venv`.
 3. Activate the virtual environment: `source .venv/bin/activate` (MAC).    
-or `.venv\Scripts\activate` (WINDOWS COMMAND PROMPT).  
-4. Install packages: `pip install -r requirements.txt`. 
-5. Set up Docker to load and run the two models: ai/llama3.2 and ai/embeddinggemma 
-6. Run the app: `python app.py`. 
-7. (Optional) If you're using this to learn how the RAG flow behaves, you can run the `app_debug.py` script to get information back at each step.  
-8. End the virtual environment with this command `deactivate`.
+or `.venv\Scripts\activate` (WINDOWS COMMAND PROMPT). 
+4. You can terminate the virtual environment with this command: `deactivate`.
+5. Install packages: `pip install -r requirements.txt`. 
+6. Set up Docker to load and run the two models: ai/llama3.2 and ai/embeddinggemma 
+7. Implement the Data Ingestion Pipeline (below).
+8. Run the app: `python app.py`. 
+9. (Optional) If you're using this to learn how the RAG flow behaves, you can run the `app_debug.py` script to get information back at each step.  
 
 Depending on the memory in your local hardware, the app may be slow to respond.
 
-## Data Pipelines
+## Data Ingestion Pipeline
 
 1. Raw data (.pdf's) are located in ./data/raw
 2. Processed data (.md) is generated using ./scripts/convert.py
