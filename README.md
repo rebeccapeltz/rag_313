@@ -16,7 +16,7 @@ using a local LLM.  The FAISS index cannot be used with version of Python greate
 The documents have been converted from PDF to Markdown text and loaded into a FAISS index.  If you want to change the documents or try out the conversion and ingestion scripts, you'll find the ata in the documents in the /data directory and the scripts for conversion and extraction in the /scripts directory.
 
 ## Requirements
-At the time of the creation of this project, the use of Python versions > 3.13 with LangChain can lead to significant installaton and ruttime issues due to lagging support in 3rd party provider integrations and dependencies.
+This project requires Python 3.13. The FAISS library (faiss-cpu), used for vector similarity search, does not currently provide pre-built packages for Python 3.14. Attempting to run this project on Python 3.14 will likely result in installation errors."
 
 - Python 3.13
 - Python packages
