@@ -131,8 +131,6 @@ embeddings = OpenAIEmbeddings(
     base_url="http://localhost:12434/v1",   # Local Docker Model Runner endpoint
     api_key="not-needed"                    # No authentication required for local inference
 )
-test_vec = embeddings.embed_query("test")
-print("Embedding dimension:", len(test_vec))
 
 print(">>> ABOUT TO CALL from_documents()")
 
@@ -155,5 +153,4 @@ vectorstore.save_local(PROJECT_ROOT + "/faiss_index")  # Save relative to projec
 print(">>> FINISHED CALLING from_documents()")
 print("Ingest complete!")
 
-test_vec = embeddings.embed_query("hello world")
-print("INGEST embedding dimension:", len(test_vec))
+
